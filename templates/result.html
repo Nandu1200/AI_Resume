@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>AI Resume Dashboard</title>
+
+```
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family:'Segoe UI',sans-serif;
+    }
+
+    body{
+        background:linear-gradient(135deg,#667eea,#764ba2);
+        min-height:100vh;
+        padding:30px;
+    }
+
+    .container{
+        max-width:1200px;
+        margin:auto;
+    }
+
+    .heading{
+        text-align:center;
+        color:white;
+        margin-bottom:30px;
+    }
+
+    .heading h1{
+        font-size:42px;
+    }
+
+    .top-cards{
+        display:grid;
+        grid-template-columns:repeat(3,1fr);
+        gap:20px;
+        margin-bottom:25px;
+    }
+
+    .card{
+        background:white;
+        border-radius:20px;
+        padding:25px;
+        box-shadow:0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .stat-card{
+        text-align:center;
+    }
+
+    .stat-card h3{
+        color:#666;
+        margin-bottom:10px;
+    }
+
+    .big-number{
+        font-size:42px;
+        font-weight:bold;
+        color:#00a86b;
+    }
+
+    .grade{
+        color:#ff9800;
+    }
+
+    .middle{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:20px;
+        margin-bottom:20px;
+    }
+
+    #scoreChart{
+        max-width:300px;
+        margin:auto;
+    }
+
+    .skills{
+        display:flex;
+        flex-wrap:wrap;
+        gap:10px;
+        margin-top:15px;
+    }
+
+    .badge{
+        background:#4f46e5;
+        color:white;
+        padding:8px 14px;
+        border-radius:20px;
+        font-size:14px;
+    }
+
+    .badge.red{
+        background:#ef4444;
+    }
+
+    .summary{
+        line-height:1.8;
+        color:#444;
+    }
+
+    ul{
+        padding-left:20px;
+        line-height:2;
+    }
+
+    pre{
+        white-space:pre-wrap;
+        word-wrap:break-word;
+        background:#f7f7f7;
+        padding:15px;
+        border-radius:12px;
+        max-height:350px;
+        overflow:auto;
+    }
+
+    @media(max-width:900px){
+
+        .top-cards{
+            grid-template-columns:1fr;
+        }
+
+        .middle{
+            grid-template-columns:1fr;
+        }
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+<div class="container">
+
+```
+<div class="heading">
+    <h1>🚀 Resume Analysis Dashboard</h1>
+</div>
+
+<div class="top-cards">
+
+    <div class="card stat-card">
+        <h3>Resume Score</h3>
+        <div class="big-number">{{ score }}</div>
+    </div>
+
+    <div class="card stat-card">
+        <h3>ATS Score</h3>
+        <div class="big-number">{{ ats_score }}</div>
+    </div>
+
+    <div class="card stat-card">
+        <h3>Grade</h3>
+        <div class="big-number grade">{{ grade }}</div>
+    </div>
+
+</div>
+
+<div class="middle">
+
+    <div class="card">
+        <h2>📊 Resume Analytics</h2>
+        <br>
+        <canvas id="scoreChart"></canvas>
+    </div>
+
+    <div class="card">
+        <h2>🤖 AI Resume Summary</h2>
+        <br>
+        <div class="summary">
+            {{ ai_summary }}
+        </div>
+    </div>
+
+</div>
+
+<div class="middle">
+
+    <div class="card">
+        <h2>💪 Strengths</h2>
+
+        <div class="skills">
+            {% for item in strengths %}
+            <span class="badge">{{ item }}</span>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>⚠ Missing Skills</h2>
+
+        <div class="skills">
+            {% for item in missing_skills %}
+            <span class="badge red">{{ item }}</span>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+<div class="card">
+    <h2>💡 AI Suggestions</h2>
+
+    <ul>
+        {% for item in suggestions %}
+        <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<br>
+
+<div class="card">
+
+    <h2>💼 Recommended Jobs</h2>
+
+    <br>
+
+    {% for job in recommended_jobs %}
+
+    <div style="
+        background:#f5f7ff;
+        padding:15px;
+        border-radius:12px;
+        margin-bottom:12px;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+    ">
+
+        <strong>{{ job.title }}</strong>
+
+        <a href="{{ job.link }}"
+           target="_blank"
+           style="
+            background:#4f46e5;
+            color:white;
+            text-decoration:none;
+            padding:8px 15px;
+            border-radius:8px;
+            font-size:14px;
+           ">
+            Apply Now
+        </a>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+<br>
+<div class="card">
+
+    <h2>🎯 Resume vs Job Description Match</h2>
+
+    <br>
+
+    <h3>
+        Match Score:
+        <span style="color:green;">
+            {{ match_score }}%
+        </span>
+    </h3>
+
+    <br>
+
+    <h3>✅ Matched Skills</h3>
+
+    <div class="skills">
+
+        {% for skill in matched_skills %}
+        <span class="badge">
+            {{ skill }}
+        </span>
+        {% endfor %}
+
+    </div>
+
+    <br>
+
+    <h3>❌ Missing Skills</h3>
+
+    <div class="skills">
+
+        {% for skill in missing_jd_skills %}
+        <span class="badge red">
+            {{ skill }}
+        </span>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<br>
+<div class="card">
+    <h2>📄 Extracted Resume Text</h2>
+    <br>
+    <pre>{{ text }}</pre>
+</div>
+```
+
+</div>
+<div class="card">
+
+    <h2>🎯 Interview Questions Based On Your Resume</h2>
+
+    <br>
+
+    <ul>
+
+        {% for question in interview_questions %}
+
+        {% if question.strip() %}
+
+        <li>{{ question }}</li>
+
+        {% endif %}
+
+        {% endfor %}
+
+    </ul>
+
+</div>
+
+<br>
+
+<script>
+
+const score = Number("{{ score }}");
+
+new Chart(
+document.getElementById('scoreChart'),
+{
+type:'doughnut',
+data:{
+labels:['Score','Remaining'],
+datasets:[{
+data:[score,100-score]
+}]
+},
+options:{
+responsive:true,
+plugins:{
+legend:{
+position:'top'
+}
+}
+}
+}
+);
+
+</script>
+
+</body>
+</html>

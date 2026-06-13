@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Analyzer & Builder</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 650px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(15px);
+            padding: 50px;
+            border-radius: 25px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .logo {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .upload-box {
+            border: 2px dashed rgba(255,255,255,0.5);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            transition: 0.3s;
+        }
+
+        .upload-box:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        input[type="file"] {
+            color: white;
+            font-size: 16px;
+        }
+
+        .upload-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: #00c896;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .upload-btn:hover {
+            background: #00a77f;
+            transform: translateY(-2px);
+        }
+
+        .features {
+            margin-top: 25px;
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 10px;
+            text-align: left;
+        }
+
+        .feature {
+            background: rgba(255,255,255,0.12);
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        @media(max-width:600px){
+
+            .card{
+                padding:30px;
+            }
+
+            h1{
+                font-size:28px;
+            }
+
+            .features{
+                grid-template-columns:1fr;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="card">
+
+            <div class="logo">
+                🚀
+            </div>
+
+            <h1>AI Resume Analyzer & Builder</h1>
+
+            <p>
+                Upload your resume and get ATS Score, Resume Analysis,
+                AI Summary, Skill Suggestions and Career Insights.
+            </p>
+
+            <form method="POST" enctype="multipart/form-data">
+
+                <div class="upload-box">
+
+                    <h3>📄 Upload Resume (PDF)</h3>
+
+                    <br>
+
+                    <input
+                        type="file"
+                        name="resume"
+                        accept=".pdf"
+                        required
+                    >
+
+                </div>
+                <br>
+
+<textarea
+    name="job_description"
+    rows="8"
+    placeholder="Paste Job Description Here..."
+    style="
+        width:100%;
+        padding:15px;
+        border:none;
+        border-radius:12px;
+        margin-top:15px;
+        font-size:15px;
+        resize:none;
+    "
+></textarea>
+
+<br><br>
+
+                <button class="upload-btn" type="submit">
+                    Analyze Resume
+                </button>
+
+            </form>
+
+            <div class="features">
+
+                <div class="feature">
+                    ✅ ATS Score Analysis
+                </div>
+
+                <div class="feature">
+                    🤖 AI Resume Summary
+                </div>
+
+                <div class="feature">
+                    📊 Resume Scoring
+                </div>
+
+                <div class="feature">
+                    💡 Skill Suggestions
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
